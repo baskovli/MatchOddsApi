@@ -1,19 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MatchOdds.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace MatchOdds.Data
 {
-    public class MatchContext : DbContext
+    public class MatchOddsContext : DbContext
     {
-        public MatchContext(DbContextOptions<MatchContext> options) : base(options)
+        public MatchOddsContext(DbContextOptions<MatchOddsContext> options) : base(options)
         {
         }
 
-        public MatchContext()
+        public MatchOddsContext()
         {
         }
 
         public DbSet<Match> Matches { get; set; }
-        public DbSet<MatchOdd> MatchOdds { get; set; }
+        public DbSet<Odd> Odds { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
