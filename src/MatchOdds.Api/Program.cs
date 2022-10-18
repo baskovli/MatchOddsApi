@@ -1,6 +1,13 @@
+using MatchOdds.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<MatchOddsContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("matchOddsConnectionString"));
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -23,3 +30,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+//https://www.c-sharpcorner.com/article/implement-unit-of-work-and-generic-repository-pattern-in-a-web-api-net-core-pro/
