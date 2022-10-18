@@ -1,4 +1,6 @@
 using MatchOdds.Data;
+using MatchOdds.Data.UnitOfWork;
+using MatchOdds.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,8 @@ builder.Services.AddDbContext<MatchOddsContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("matchOddsConnectionString"));
 });
+
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

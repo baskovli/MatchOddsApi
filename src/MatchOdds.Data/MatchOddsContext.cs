@@ -13,8 +13,8 @@ namespace MatchOdds.Data
         {
         }
 
-        public DbSet<Match> Matches { get; set; }
-        public DbSet<Odd> Odds { get; set; }
+        public DbSet<Match> Match { get; set; }
+        public DbSet<Odd> Odd { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
