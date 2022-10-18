@@ -1,2 +1,2 @@
-# MatchWebApi
-Match data with odds - Web API 
+# Match Web Api
+Web Api application for match management and its odds.
