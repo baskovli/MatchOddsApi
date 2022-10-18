@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MatchOdds.Domain.Models.Odd
+namespace MatchOdds.Domain.Models.Match
 {
-    public class OddAddModel
+    public class MatchAddModel
     {
         [Required]
         public int MatchId { get; set; }

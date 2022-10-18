@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 
 namespace MatchOdds.Domain.AutoMapper
 {
-    internal class AutoMapperSettings
+    public static class AutoMapperSettings
     {
+        public static IMapperConfigurationExpression AddMappings(
+           this IMapperConfigurationExpression configurationExpression)
+        {
+            MatchMapper.Set(configurationExpression);
+            OddMapper.Set(configurationExpression);
+
+            return configurationExpression;
+        }
     }
 }
