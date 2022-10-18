@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace MatchOdds.Domain.Entities
 {
 #pragma warning disable
-    public class Match : BaseEntity<long>
+    public class Match : BaseEntity<int>
     {
         public Match()
         {

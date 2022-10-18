@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MatchOdds.Domain.Entities
 {
-    public class Odd : BaseEntity<long>
+    public class Odd : BaseEntity<int>
     {
         [Required]
         public int MatchId { get; set; }
