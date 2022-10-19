@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MatchOdds.Data\MatchOdds.Data.csproj" />
     <ProjectReference Include="..\MatchOdds.Domain\MatchOdds.Domain.csproj" />
+    <ProjectReference Include="..\MatchOdds.Infrastructure\MatchOdds.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

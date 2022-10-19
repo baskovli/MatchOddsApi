@@ -5,11 +5,11 @@ using System.ComponentModel.DataAnnotations;
 namespace MatchOdds.Domain.Entities
 {
 #pragma warning disable
-    public class Match : BaseEntity<int>
+    public class Match : AuditEntity<int>
     {
         public Match()
         {
-            Odds = new List<Odd>();
+            Odds = new HashSet<Odd>();
         }
 
         public string Description { get; set; }

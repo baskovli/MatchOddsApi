@@ -2,9 +2,11 @@
 using MatchOdds.Domain.Entities;
 using MatchOdds.Domain.Models.Match;
 using MatchOdds.Domain.Repositories;
+using MatchOdds.Infrastructure.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace MatchOdds.Domain.Services;
+namespace MatchOdds.Infrastructure.Services;
+
 public class MatchRepositoryService : RepositoryService, IMatchRepositoryService
 {
     private readonly IMatchRepository _matchRepository;
@@ -19,7 +21,7 @@ public class MatchRepositoryService : RepositoryService, IMatchRepositoryService
     {
         var cachedMatches = await _memoryCache.GetOrCreateAsync<IList<MatchModel>>(cacheKey, async (c) =>
         {
-            var matches = await _matchRepository.GetAllAsync(x => x.Odds);
+            var matches = _matchRepository.FindAll(x => x.Odds).ToList();
 
             if (matches.Any())
             {
@@ -43,12 +45,16 @@ public class MatchRepositoryService : RepositoryService, IMatchRepositoryService
 
         if (cachedMatch == null)
         {
-            var match = await _matchRepository.GetByIdAsync(id, x => x.Odds);
+            var match = _matchRepository.FindByCondition(x => x.ID == id).FirstOrDefault();
             if (match != null)
             {
                 var mappedMatch = _mapper.Map<MatchModel>(match);
 
-                if (cachedMatches == null) cachedMatches = new List<MatchModel>();
+                if (cachedMatches == null)
+                {
+                    cachedMatches = new List<MatchModel>();
+                }
+
                 cachedMatches.Add(mappedMatch);
 
                 _memoryCache.Set(cacheKey, cachedMatches, new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(defaultSlideExpirationInMinutes)));
@@ -68,7 +74,7 @@ public class MatchRepositoryService : RepositoryService, IMatchRepositoryService
     public async Task<MatchModel> AddMatch(MatchAddModel model)
     {
         var matchMapped = _mapper.Map<Match>(model);
-        var match = await _matchRepository.AddAsync(matchMapped);
+        var match = await _matchRepository.CreateAsync(matchMapped);
         // Reset Memory Cache
         _memoryCache.Remove(cacheKey);
 

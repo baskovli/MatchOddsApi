@@ -1,5 +1,5 @@
 using MatchOdds.Domain.Models.Match;
-using MatchOdds.Domain.Repositories;
+using MatchOdds.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MatchOdds.Controllers
@@ -8,15 +8,15 @@ namespace MatchOdds.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IMatchRepositoryService _matchRepository;
         private static readonly string[] Summaries = new[]
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        public WeatherForecastController(IUnitOfWork unitOfWork)
+        public WeatherForecastController(IMatchRepositoryService matchRepository)
         {
-            this.unitOfWork = unitOfWork;
+            _matchRepository = matchRepository;
         }
 
         private readonly ILogger<WeatherForecastController> _logger;
@@ -29,7 +29,7 @@ namespace MatchOdds.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public async Task<IList<MatchModel>> Get()
         {
-            var matches = await unitOfWork.Match.GetAllMatches();
+            var matches = await _matchRepository.GetAllMatches();
             return matches;
         }
     }

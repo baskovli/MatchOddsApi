@@ -1,6 +1,6 @@
 ﻿using MatchOdds.Domain.Models.Match;
 
-namespace MatchOdds.Domain.Services;
+namespace MatchOdds.Infrastructure.Interfaces;
 
 public interface IMatchRepositoryService
 {
