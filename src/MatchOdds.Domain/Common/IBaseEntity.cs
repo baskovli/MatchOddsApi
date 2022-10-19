@@ -1,8 +1,8 @@
 ﻿namespace MatchOdds.Domain.Common;
 
-public interface IBaseEntity<T>
+public interface IBaseEntity<TKey>
 {
-    T ID { get; set; }
+    TKey ID { get; set; }
 }
 
 public interface IDeleteEntity
