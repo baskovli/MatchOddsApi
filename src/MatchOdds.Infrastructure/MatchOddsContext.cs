@@ -1,7 +1,7 @@
 ﻿using MatchOdds.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace MatchOdds.Data
+namespace MatchOdds.Infrastructure
 {
     public class MatchOddsContext : DbContext
     {

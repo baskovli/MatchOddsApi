@@ -1,10 +1,11 @@
-﻿using MatchOdds.Data;
-using MatchOdds.Data.Interfaces;
-using MatchOdds.Data.Services;
-using MatchOdds.Data.TypeRepositories;
-using MatchOdds.Data.UnitOfWork;
+﻿using MatchOdds.Infrastructure;
+using MatchOdds.Infrastructure.Interfaces;
+using MatchOdds.Infrastructure.Services;
+using MatchOdds.Infrastructure.TypeRepositories;
+using MatchOdds.Infrastructure.UnitOfWork;
 using MatchOdds.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using MatchOdds.Data.Services;
 
 namespace MatchOdds.Api.Configuration
 {
@@ -15,7 +16,7 @@ namespace MatchOdds.Api.Configuration
             // Configure DBContext
             services.AddDbContext<MatchOddsContext>(options => options.EnableSensitiveDataLogging()
             .UseSqlServer(configuration.GetConnectionString("matchOddsConString"),
-            b => b.MigrationsAssembly("MatchOdds.Data")));
+            b => b.MigrationsAssembly("MatchOdds.Infrastructure")));
         }
 
         /// <summary>

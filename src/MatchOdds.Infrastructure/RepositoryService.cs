@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace MatchOdds.Domain.Services;
+namespace MatchOdds.Infrastructure.Services;
 
 public abstract class RepositoryService
 {

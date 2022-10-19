@@ -5,7 +5,7 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchOdds.Api", "src\MatchOdds.Api\MatchOdds.Api.csproj", "{C3AB56BE-FE65-4367-A8C9-54D79410EEF1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchOdds.Data", "src\MatchOdds.Data\MatchOdds.Data.csproj", "{CD830C2E-9F0C-4664-A927-7EBAA6279B9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchOdds.Infrastructure", "src\MatchOdds.Infrastructure\MatchOdds.Infrastructure.csproj", "{CD830C2E-9F0C-4664-A927-7EBAA6279B9A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchOdds.Domain", "src\MatchOdds.Domain\MatchOdds.Domain.csproj", "{11496C17-44FA-4F35-AEF9-74295E25C465}"
 EndProject

@@ -1,6 +1,6 @@
-﻿using MatchOdds.Data.Interfaces;
+﻿using MatchOdds.Infrastructure.Interfaces;
 
-namespace MatchOdds.Data.UnitOfWork;
+namespace MatchOdds.Infrastructure.UnitOfWork;
 
 /// <summary>
 /// IoC - wrap all services

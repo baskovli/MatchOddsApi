@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace MatchOdds.Data;
+namespace MatchOdds.Infrastructure;
 
 public abstract class GenericRepository<T, C> : IGenericRepository<T>
     where T : class

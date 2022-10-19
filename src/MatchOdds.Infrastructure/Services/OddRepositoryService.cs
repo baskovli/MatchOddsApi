@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using MatchOdds.Data.Interfaces;
 using MatchOdds.Domain.Entities;
 using MatchOdds.Domain.Models.Match;
 using MatchOdds.Domain.Models.Odd;
 using MatchOdds.Domain.Repositories;
-using MatchOdds.Domain.Services;
+using MatchOdds.Infrastructure.Interfaces;
+using MatchOdds.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 

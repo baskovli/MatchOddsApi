@@ -1,6 +1,6 @@
-﻿using MatchOdds.Data.Interfaces;
+﻿using MatchOdds.Infrastructure.Interfaces;
 
-namespace MatchOdds.Data.UnitOfWork;
+namespace MatchOdds.Infrastructure.UnitOfWork;
 
 public class UnitOfWork : IUnitOfWork
 {

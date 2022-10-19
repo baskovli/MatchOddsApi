@@ -3,6 +3,7 @@ using MatchOdds.Domain.Entities;
 using MatchOdds.Domain.Models.Match;
 using MatchOdds.Domain.Repositories;
 using MatchOdds.Infrastructure.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MatchOdds.Infrastructure.Services;
@@ -54,6 +55,36 @@ public class MatchRepositoryService : RepositoryService, IMatchRepositoryService
                 {
                     cachedMatches = new List<MatchModel>();
                 }
+
+                cachedMatches.Add(mappedMatch);
+
+                _memoryCache.Set(cacheKey, cachedMatches, new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(defaultSlideExpirationInMinutes)));
+                return mappedMatch;
+            }
+            return default;
+        }
+
+        return cachedMatch;
+    }
+
+    /// <summary>
+    /// Get match by team A name
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public async Task<MatchModel?> GetMatchByTeamAName(string teamName)
+    {
+        var cachedMatches = _memoryCache.Get<IList<MatchModel>>(cacheKey);
+        var cachedMatch = cachedMatches?.FirstOrDefault(m => m.TeamA == teamName);
+
+        if (cachedMatch == null)
+        {
+            var match = await _matchRepository.FindByCondition(x => x.TeamA == teamName).FirstOrDefaultAsync();
+            if (match != null)
+            {
+                var mappedMatch = _mapper.Map<MatchModel>(match);
+
+                cachedMatches ??= new List<MatchModel>();
 
                 cachedMatches.Add(mappedMatch);
 
