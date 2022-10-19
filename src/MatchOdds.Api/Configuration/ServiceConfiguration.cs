@@ -1,9 +1,8 @@
-﻿using AutoMapper;
-using MatchOdds.Data;
+﻿using MatchOdds.Data;
 using MatchOdds.Data.Interfaces;
 using MatchOdds.Data.Services;
 using MatchOdds.Data.TypeRepositories;
-using MatchOdds.Domain.AutoMapper;
+using MatchOdds.Data.UnitOfWork;
 using MatchOdds.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,7 +42,8 @@ namespace MatchOdds.Api.Configuration
         {
             // Configure Repositories
             services.AddScoped<IMatchRepository, MatchRepository>()
-                    .AddScoped<IOddRepository, OddRepository>();
+                    .AddScoped<IOddRepository, OddRepository>()
+                    .AddScoped<IUnitOfWork, UnitOfWork>();
 
             // Configure Wrapper Of Repositories
             services.AddScoped<IMatchRepositoryService, MatchRepositoryService>()

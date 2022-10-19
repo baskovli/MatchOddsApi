@@ -1,36 +1,16 @@
-﻿using MatchOdds.Domain.Repositories;
+﻿using MatchOdds.Data.Interfaces;
 
 namespace MatchOdds.Data.UnitOfWork;
 
-#pragma warning disable
 public class UnitOfWork : IUnitOfWork
 {
-    private MatchOddsContext context;
+    public IMatchRepositoryService MatchRepositoryService { get; }
 
-    public UnitOfWork(MatchOddsContext context)
-    {
-        this.context = context;
-    }
+    public IOddRepositoryService OddRepositoryServiceService { get; }
 
-    public IMatchRepository Match
+    public UnitOfWork(IMatchRepositoryService matchRepository, IOddRepositoryService matchOddRepositoryService)
     {
-        get;
-        private set;
-    }
-
-    public IOddRepository Odd
-    {
-        get;
-        private set;
-    }
-
-    public void Dispose()
-    {
-        context.Dispose();
-    }
-
-    public int Save()
-    {
-        return context.SaveChanges();
+        MatchRepositoryService = matchRepository;
+        OddRepositoryServiceService = matchOddRepositoryService;
     }
 }

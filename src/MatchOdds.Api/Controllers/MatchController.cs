@@ -12,10 +12,12 @@ namespace MatchOdds.Controllers
     public class MatchController : BaseController
     {
         private readonly IMatchRepositoryService _matchRepositoryClient;
+        private readonly IOddRepositoryService _oddRepositoryService;
 
-        public MatchController(IMatchRepositoryService matchRepositoryClient)
+        public MatchController(IMatchRepositoryService matchRepositoryClient, IOddRepositoryService oddRepositoryService)
         {
             _matchRepositoryClient = matchRepositoryClient;
+            _oddRepositoryService = oddRepositoryService;
         }
 
         // GET: api/match
@@ -50,7 +52,7 @@ namespace MatchOdds.Controllers
         }
 
         // GET api/match/1
-        [HttpGet("team/{title}")]
+        [HttpGet("teama/{title}")]
         public async Task<ActionResult<MatchModel>> Get(string title)
         {
             try

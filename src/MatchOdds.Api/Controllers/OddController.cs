@@ -1,4 +1,4 @@
-﻿using MatchOdds.Data.Interfaces;
+﻿using MatchOdds.Data.UnitOfWork;
 using MatchOdds.Domain.Models.Match;
 using MatchOdds.Domain.Models.Odd;
 using Microsoft.AspNetCore.Cors;
@@ -11,13 +11,12 @@ namespace MatchOdds.Api.Controllers
     [Route("api/[controller]")]
     public class OddController : Controller
     {
-        private readonly IOddRepositoryService _oddRepositoryService;
-        private readonly IMatchRepositoryService _matchRepositoryService;
+        //repository pattern
+        private readonly IUnitOfWork _unitOfWork;
 
-        public OddController(IOddRepositoryService oddRepositoryService, IMatchRepositoryService matchRepositoryService)
+        public OddController(IUnitOfWork unitOfWork)
         {
-            _oddRepositoryService = oddRepositoryService;
-            _matchRepositoryService = matchRepositoryService;
+            _unitOfWork = unitOfWork;
         }
 
 
@@ -27,7 +26,7 @@ namespace MatchOdds.Api.Controllers
         {
             try
             {
-                var odds = await _oddRepositoryService.GetAllMatchOdds();
+                var odds = await _unitOfWork.OddRepositoryServiceService.GetAllMatchOdds();
                 return Ok(odds);
             }
             catch (Exception ex)
@@ -43,7 +42,7 @@ namespace MatchOdds.Api.Controllers
         {
             try
             {
-                var odd = await _oddRepositoryService.GetMatchOddById(id);
+                var odd = await _unitOfWork.OddRepositoryServiceService.GetMatchOddById(id);
                 return Ok(odd);
             }
             catch (Exception ex)
@@ -63,7 +62,7 @@ namespace MatchOdds.Api.Controllers
 
             try
             {
-                var odd = await _oddRepositoryService.AddMatchOdd(model);
+                var odd = await _unitOfWork.OddRepositoryServiceService.AddMatchOdd(model);
                 return Ok(odd);
             }
             catch (Exception ex)
@@ -83,7 +82,7 @@ namespace MatchOdds.Api.Controllers
 
             try
             {
-                var odd = await _oddRepositoryService.GetMatchOddById(id);
+                var odd = await _unitOfWork.OddRepositoryServiceService.GetMatchOddById(id);
                 if (odd == null)
                 {
                     return NotFound();
@@ -94,7 +93,7 @@ namespace MatchOdds.Api.Controllers
                     model.ID = id;
                 }
 
-                var updatedMatch = await _oddRepositoryService.UpdateMatchOdd(model);
+                var updatedMatch = await _unitOfWork.OddRepositoryServiceService.UpdateMatchOdd(model);
                 return Ok(updatedMatch);
             }
             catch (Exception ex)
@@ -109,13 +108,13 @@ namespace MatchOdds.Api.Controllers
         {
             try
             {
-                var odd = await _oddRepositoryService.GetMatchOddById(id);
+                var odd = await _unitOfWork.OddRepositoryServiceService.GetMatchOddById(id);
                 if (odd == null)
                 {
                     return NotFound();
                 }
 
-                var deleted = await _oddRepositoryService.DeleteMatchOdd(id);
+                var deleted = await _unitOfWork.OddRepositoryServiceService.DeleteMatchOdd(id);
                 if (deleted)
                 {
                     return Ok();

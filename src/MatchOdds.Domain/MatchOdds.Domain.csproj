@@ -10,10 +10,10 @@
     <Compile Remove="Common\BaseAuditableEntity.cs" />
     <Compile Remove="Common\BaseEvent.cs" />
     <Compile Remove="Common\ValueObject.cs" />
+    <Compile Remove="Repositories\IUnitOfWork.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
     <Folder Include="Repositories\" />
   </ItemGroup>
 
