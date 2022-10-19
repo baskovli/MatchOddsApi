@@ -1,14 +1,23 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MatchOdds.Domain.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace MatchOdds.Domain.Models.Match
 {
+#pragma warning disable
     public class MatchAddModel
     {
+        public string Description { get; set; }
         [Required]
-        public int MatchId { get; set; }
-        [MaxLength(3)]
-        public string Specifier { get; set; } = null!;
+        public string MatchDate { get; set; }
         [Required]
-        public double Odd { get; set; }
+        public string MatchTime { get; set; }
+        [MaxLength(10)]
+        [Required]
+        public string TeamA { get; set; }
+        [MaxLength(10)]
+        [Required]
+        public string TeamB { get; set; }
+        [Required]
+        public SportType Sport { get; set; }
     }
 }

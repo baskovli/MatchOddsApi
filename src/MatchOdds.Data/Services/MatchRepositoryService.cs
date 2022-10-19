@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
+using MatchOdds.Data.Interfaces;
 using MatchOdds.Domain.Entities;
 using MatchOdds.Domain.Models.Match;
 using MatchOdds.Domain.Repositories;
-using MatchOdds.Infrastructure.Interfaces;
+using MatchOdds.Domain.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace MatchOdds.Infrastructure.Services;
+namespace MatchOdds.Data.Services;
 
 public class MatchRepositoryService : RepositoryService, IMatchRepositoryService
 {
@@ -21,7 +23,7 @@ public class MatchRepositoryService : RepositoryService, IMatchRepositoryService
     {
         var cachedMatches = await _memoryCache.GetOrCreateAsync<IList<MatchModel>>(cacheKey, async (c) =>
         {
-            var matches = _matchRepository.FindAll(x => x.Odds).ToList();
+            var matches = await _matchRepository.FindAll(x => x.Odds).ToListAsync();
 
             if (matches.Any())
             {
@@ -45,7 +47,8 @@ public class MatchRepositoryService : RepositoryService, IMatchRepositoryService
 
         if (cachedMatch == null)
         {
-            var match = _matchRepository.FindByCondition(x => x.ID == id).FirstOrDefault();
+            var match = await _matchRepository.GetByIdAsync(id, x => x.Odds);
+            // var match = await _matchRepository.FindByCondition(x => x.ID == id).FirstOrDefaultAsync();
             if (match != null)
             {
                 var mappedMatch = _mapper.Map<MatchModel>(match);
@@ -54,6 +57,36 @@ public class MatchRepositoryService : RepositoryService, IMatchRepositoryService
                 {
                     cachedMatches = new List<MatchModel>();
                 }
+
+                cachedMatches.Add(mappedMatch);
+
+                _memoryCache.Set(cacheKey, cachedMatches, new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(defaultSlideExpirationInMinutes)));
+                return mappedMatch;
+            }
+            return default;
+        }
+
+        return cachedMatch;
+    }
+
+    /// <summary>
+    /// Get match by team A name
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public async Task<MatchModel?> GetMatchByTeamAName(string teamName)
+    {
+        var cachedMatches = _memoryCache.Get<IList<MatchModel>>(cacheKey);
+        var cachedMatch = cachedMatches?.FirstOrDefault(m => m.TeamA == teamName);
+
+        if (cachedMatch == null)
+        {
+            var match = await _matchRepository.FindByCondition(x => x.TeamA == teamName).FirstOrDefaultAsync();
+            if (match != null)
+            {
+                var mappedMatch = _mapper.Map<MatchModel>(match);
+
+                cachedMatches ??= new List<MatchModel>();
 
                 cachedMatches.Add(mappedMatch);
 

@@ -15,7 +15,7 @@ namespace MatchOdds.Domain.AutoMapper
 
             // Mapping from Api model to Entity 
             cfg.CreateMap<OddModel, Odd>();
-            cfg.CreateMap<MatchAddModel, Odd>();
+            cfg.CreateMap<OddAddModel, Odd>();
             cfg.CreateMap<MatchUpdateModel, Odd>();
         }
     }

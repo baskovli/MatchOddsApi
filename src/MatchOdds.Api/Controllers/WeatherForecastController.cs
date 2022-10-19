@@ -1,5 +1,5 @@
+using MatchOdds.Data.Interfaces;
 using MatchOdds.Domain.Models.Match;
-using MatchOdds.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MatchOdds.Controllers
