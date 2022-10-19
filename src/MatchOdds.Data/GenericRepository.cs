@@ -8,10 +8,12 @@ public abstract class GenericRepository<T, C> : IGenericRepository<T>
     where T : class
     where C : DbContext
 {
-    protected readonly C _context;
+    internal readonly C _context;
+    internal DbSet<T> dbSet;
     public GenericRepository(C context)
     {
         _context = context;
+        dbSet = _context.Set<T>();
     }
 
     public IQueryable<T> FindAll(params Expression<Func<T, object>>[] propertiesToInclude)
@@ -26,7 +28,7 @@ public abstract class GenericRepository<T, C> : IGenericRepository<T>
 
             return query.AsNoTracking();
         }
-        return _context.Set<T>().AsNoTracking();
+        return dbSet.AsNoTracking();
     }
 
     //public T GetById(int id)
@@ -37,12 +39,11 @@ public abstract class GenericRepository<T, C> : IGenericRepository<T>
 
     public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
     {
-        return _context.Set<T>()
-            .Where(expression).AsNoTracking();
+        return dbSet.Where(expression).AsNoTracking();
     }
     public async Task<T> CreateAsync(T entity)
     {
-        _context.Set<T>().Add(entity);
+        dbSet.Add(entity);
         await _context.SaveChangesAsync();
         return entity;
 
@@ -56,13 +57,13 @@ public abstract class GenericRepository<T, C> : IGenericRepository<T>
 
     public async Task<bool> DeleteAsync(int id)
     {
-        var entity = await _context.Set<T>().FindAsync(id);
+        var entity = await dbSet.FindAsync(id);
         if (entity == null)
         {
             return false;
         }
 
-        _context.Set<T>().Remove(entity);
+        dbSet.Remove(entity);
         await _context.SaveChangesAsync();
 
         return true;
@@ -79,7 +80,7 @@ public abstract class GenericRepository<T, C> : IGenericRepository<T>
                 return default;
             }
 
-            var query = _context.Set<T>().AsNoTracking().AsQueryable();
+            var query = dbSet.AsNoTracking().AsQueryable();
 
             foreach (var expression in propertiesToInclude)
             {
@@ -88,7 +89,7 @@ public abstract class GenericRepository<T, C> : IGenericRepository<T>
 
             return await query.FirstOrDefaultAsync(s => EF.Property<int>(s, keyProperty.Name) == id);
         }
-        return await _context.Set<T>().FindAsync(id);
+        return await dbSet.FindAsync(id);
     }
 
     //public async Task<List<T>> GetAllAsync(params Expression<Func<T, object>>[] propertiesToInclude)

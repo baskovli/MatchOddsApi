@@ -10,12 +10,12 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace MatchOdds.Data.Services
 {
-    public class MatchOddRepositoryService : RepositoryService, IOddRepositoryService
+    public class OddRepositoryService : RepositoryService, IOddRepositoryService
     {
         private readonly IOddRepository _matchOddRepository;
 
         private readonly string cacheKey = "MatchesOdds";
-        public MatchOddRepositoryService(IOddRepository matchOddRepository, IMapper mapper, IMemoryCache cache) : base(mapper, cache)
+        public OddRepositoryService(IOddRepository matchOddRepository, IMapper mapper, IMemoryCache cache) : base(mapper, cache)
         {
             _matchOddRepository = matchOddRepository;
         }

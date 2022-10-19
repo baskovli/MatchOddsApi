@@ -1,0 +1,61 @@
+﻿using AutoMapper;
+using MatchOdds.Data;
+using MatchOdds.Data.Interfaces;
+using MatchOdds.Data.Services;
+using MatchOdds.Data.TypeRepositories;
+using MatchOdds.Domain.AutoMapper;
+using MatchOdds.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
+
+namespace MatchOdds.Api.Configuration
+{
+    public static class ServiceConfiguration
+    {
+        public static void AddDatabaseServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            // Configure DBContext
+            services.AddDbContext<MatchOddsContext>(options => options.EnableSensitiveDataLogging()
+            .UseSqlServer(configuration.GetConnectionString("matchOddsConString"),
+            b => b.MigrationsAssembly("MatchOdds.Data")));
+        }
+
+        /// <summary>
+        /// Migrate database with migrations if not applied and exist
+        /// </summary>
+        /// <param name="app"></param>
+        public static void UseDatabaseMigrate(this IApplicationBuilder app)
+        {
+            try
+            {
+                using (var serviceScope = app.ApplicationServices.CreateScope())
+                {
+                    // Takes all of our migrations files and apply them against the database in case they are not implemented
+                    serviceScope.ServiceProvider.GetService<MatchOddsContext>().Database.Migrate();
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public static void AddRepositoryServices(this IServiceCollection services)
+        {
+            // Configure Repositories
+            services.AddScoped<IMatchRepository, MatchRepository>()
+                    .AddScoped<IOddRepository, OddRepository>();
+
+            // Configure Wrapper Of Repositories
+            services.AddScoped<IMatchRepositoryService, MatchRepositoryService>()
+                    .AddScoped<IOddRepositoryService, OddRepositoryService>();
+        }
+
+        public static void AddLogging(this IServiceCollection services)
+        {
+            services.AddLogging(builder => builder
+                .AddConsole()
+                .AddFilter(level => level >= LogLevel.Information)
+            );
+        }
+    }
+}

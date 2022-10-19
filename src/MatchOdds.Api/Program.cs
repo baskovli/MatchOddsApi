@@ -1,37 +1,64 @@
-using MatchOdds.Data;
-using MatchOdds.Data.UnitOfWork;
-using MatchOdds.Domain.Repositories;
-using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using MatchOdds.Api.Configuration;
+using MatchOdds.Domain.AutoMapper;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddDbContext<MatchOddsContext>(options =>
+builder.Services.AddCors(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("matchOddsConnectionString"));
+    options.AddPolicy(MyAllowSpecificOrigins,
+                          policy => policy.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader());
 });
 
-builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
-
 builder.Services.AddControllers();
+
+//database 
+builder.Services.AddDatabaseServices(builder.Configuration);
+
+//Repositories
+builder.Services.AddRepositoryServices();
+//builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+//Automapper
+builder.Services.AddSingleton(p => new MapperConfiguration(config => config.AddMappings()).CreateMapper());
+
+//Caching
+builder.Services.AddMemoryCache();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+// Apply Migrations to database
+app.UseDatabaseMigrate();
+
+app.UseHttpsRedirection();
+
+app.UseRouting();
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseCors(MyAllowSpecificOrigins);
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("v1/swagger.json", "Match Odds API");
+});
+
+app.UseEndpoints(endpoints =>
+{
+    //endpoints.MapHealthChecks("/healthz");
+    endpoints.MapControllers();
+});
 
 app.Run();
 
