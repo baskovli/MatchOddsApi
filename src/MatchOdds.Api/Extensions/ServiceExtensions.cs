@@ -1,7 +1,7 @@
-﻿using MatchOdds.Domain.Interfaces;
+﻿using MatchOdds.Domain;
+using MatchOdds.Domain.Interfaces;
 using MatchOdds.Domain.Repositories;
 using MatchOdds.Domain.Services;
-using MatchOdds.Domain.UnitOfWork;
 using MatchOdds.Infrastructure;
 using MatchOdds.Infrastructure.Repositories;
 using MatchOdds.Logger;

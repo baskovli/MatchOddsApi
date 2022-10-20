@@ -1,6 +1,6 @@
-﻿using MatchOdds.Domain.Models.Match;
+﻿using MatchOdds.Domain;
+using MatchOdds.Domain.Models.Match;
 using MatchOdds.Domain.Models.Odd;
-using MatchOdds.Domain.UnitOfWork;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
