@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
 using MatchOdds.Domain.Entities;
+using MatchOdds.Domain.Interfaces;
 using MatchOdds.Domain.Models.Match;
 using MatchOdds.Domain.Repositories;
-using MatchOdds.Infrastructure.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace MatchOdds.Infrastructure.Services;
+namespace MatchOdds.Domain.Services;
 
 public class MatchRepositoryService : RepositoryService, IMatchRepositoryService
 {
@@ -79,7 +78,7 @@ public class MatchRepositoryService : RepositoryService, IMatchRepositoryService
 
         if (cachedMatch == null)
         {
-            var match = await _matchRepository.FindByCondition(x => x.TeamA == teamName).FirstOrDefaultAsync();
+            var match = _matchRepository.FindByCondition(x => x.TeamA == teamName).FirstOrDefault();
             if (match != null)
             {
                 var mappedMatch = _mapper.Map<MatchModel>(match);

@@ -1,11 +1,10 @@
-﻿using MatchOdds.Infrastructure;
-using MatchOdds.Infrastructure.Interfaces;
-using MatchOdds.Infrastructure.Services;
-using MatchOdds.Infrastructure.TypeRepositories;
-using MatchOdds.Infrastructure.UnitOfWork;
+﻿using MatchOdds.Domain.Interfaces;
 using MatchOdds.Domain.Repositories;
+using MatchOdds.Domain.Services;
+using MatchOdds.Domain.UnitOfWork;
+using MatchOdds.Infrastructure;
+using MatchOdds.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using MatchOdds.Data.Services;
 
 namespace MatchOdds.Api.Configuration
 {

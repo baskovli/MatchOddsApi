@@ -1,8 +1,8 @@
-﻿using MatchOdds.Domain.Entities;
+﻿
+using MatchOdds.Domain.Entities;
 
-namespace MatchOdds.Domain.Repositories
+namespace MatchOdds.Domain.Repositories;
+
+public interface IOddRepository : IGenericRepository<Odd>
 {
-    public interface IOddRepository : IGenericRepository<Odd>
-    {
-    }
 }

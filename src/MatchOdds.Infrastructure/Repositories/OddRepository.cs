@@ -1,7 +1,7 @@
 ﻿using MatchOdds.Domain.Entities;
 using MatchOdds.Domain.Repositories;
 
-namespace MatchOdds.Infrastructure.TypeRepositories;
+namespace MatchOdds.Infrastructure.Repositories;
 
 public class OddRepository : GenericRepository<Odd, MatchOddsContext>, IOddRepository
 {

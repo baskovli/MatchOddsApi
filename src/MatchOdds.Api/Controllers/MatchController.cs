@@ -1,5 +1,5 @@
 using MatchOdds.Api.Controllers;
-using MatchOdds.Infrastructure.Interfaces;
+using MatchOdds.Domain.Interfaces;
 using MatchOdds.Domain.Models.Match;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;

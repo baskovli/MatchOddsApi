@@ -1,7 +1,7 @@
 ﻿using MatchOdds.Domain.Models.Match;
 using MatchOdds.Domain.Models.Odd;
 
-namespace MatchOdds.Infrastructure.Interfaces;
+namespace MatchOdds.Domain.Interfaces;
 
 public interface IOddRepositoryService
 {

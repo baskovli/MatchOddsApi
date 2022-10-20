@@ -1,9 +1,7 @@
 ﻿using MatchOdds.Domain.Entities;
-using MatchOdds.Domain.Models.Match;
 
-namespace MatchOdds.Domain.Repositories
+namespace MatchOdds.Domain.Repositories;
+
+public interface IMatchRepository : IGenericRepository<Match>
 {
-    public interface IMatchRepository : IGenericRepository<Match>
-    {
-    }
 }

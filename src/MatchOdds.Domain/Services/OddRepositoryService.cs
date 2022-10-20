@@ -1,14 +1,12 @@
 ﻿using AutoMapper;
 using MatchOdds.Domain.Entities;
+using MatchOdds.Domain.Interfaces;
 using MatchOdds.Domain.Models.Match;
 using MatchOdds.Domain.Models.Odd;
 using MatchOdds.Domain.Repositories;
-using MatchOdds.Infrastructure.Interfaces;
-using MatchOdds.Infrastructure.Services;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace MatchOdds.Data.Services
+namespace MatchOdds.Domain.Services
 {
     public class OddRepositoryService : RepositoryService, IOddRepositoryService
     {
@@ -24,7 +22,7 @@ namespace MatchOdds.Data.Services
         {
             var cachedMatchesOdds = await _memoryCache.GetOrCreateAsync<IList<OddModel>>(cacheKey, async (c) =>
             {
-                var matchesOdds = await _matchOddRepository.FindAll(x => x.Match).ToListAsync();
+                var matchesOdds = _matchOddRepository.FindAll(x => x.Match).ToList();
 
                 if (matchesOdds.Any())
                 {

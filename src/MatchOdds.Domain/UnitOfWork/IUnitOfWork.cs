@@ -1,11 +1,11 @@
-﻿using MatchOdds.Infrastructure.Interfaces;
+﻿using MatchOdds.Domain.Interfaces;
 
-namespace MatchOdds.Infrastructure.UnitOfWork;
+namespace MatchOdds.Domain.UnitOfWork;
 
 /// <summary>
 /// IoC - wrap all services
 /// </summary>
-public interface IUnitOfWork
+public interface IUnitOfWork : IDisposable
 {
     IMatchRepositoryService MatchRepositoryService { get; }
     IOddRepositoryService OddRepositoryServiceService { get; }

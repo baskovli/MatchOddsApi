@@ -1,6 +1,6 @@
-﻿using MatchOdds.Infrastructure.Interfaces;
+﻿using MatchOdds.Domain.Interfaces;
 
-namespace MatchOdds.Infrastructure.UnitOfWork;
+namespace MatchOdds.Domain.UnitOfWork;
 
 public class UnitOfWork : IUnitOfWork
 {
@@ -13,4 +13,10 @@ public class UnitOfWork : IUnitOfWork
         MatchRepositoryService = matchRepository;
         OddRepositoryServiceService = matchOddRepositoryService;
     }
+
+    public void Dispose()
+    {
+        throw new NotImplementedException();
+    }
 }
+
