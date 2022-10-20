@@ -19,11 +19,14 @@ builder.Services.AddControllers();
 builder.Services.AddDatabaseServices(builder.Configuration);
 
 //Repositories
-builder.Services.AddRepositoryServices();
+builder.Services.ConfigureRepositoryServices();
 //builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 //Automapper
 builder.Services.AddSingleton(p => new MapperConfiguration(config => config.AddMappings()).CreateMapper());
+
+//Logging
+builder.Services.ConfigureLoggerService();
 
 //Caching
 builder.Services.AddMemoryCache();

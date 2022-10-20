@@ -4,11 +4,12 @@ using MatchOdds.Domain.Services;
 using MatchOdds.Domain.UnitOfWork;
 using MatchOdds.Infrastructure;
 using MatchOdds.Infrastructure.Repositories;
+using MatchOdds.Logger;
 using Microsoft.EntityFrameworkCore;
 
 namespace MatchOdds.Api.Configuration
 {
-    public static class ServiceConfiguration
+    public static class ServiceExtensions
     {
         public static void AddDatabaseServices(this IServiceCollection services, IConfiguration configuration)
         {
@@ -38,7 +39,7 @@ namespace MatchOdds.Api.Configuration
             }
         }
 
-        public static void AddRepositoryServices(this IServiceCollection services)
+        public static void ConfigureRepositoryServices(this IServiceCollection services)
         {
             // Configure Repositories
             services.AddScoped<IMatchRepository, MatchRepository>()
@@ -50,12 +51,9 @@ namespace MatchOdds.Api.Configuration
                     .AddScoped<IOddRepositoryService, OddRepositoryService>();
         }
 
-        public static void AddLogging(this IServiceCollection services)
+        public static void ConfigureLoggerService(this IServiceCollection services)
         {
-            services.AddLogging(builder => builder
-                .AddConsole()
-                .AddFilter(level => level >= LogLevel.Information)
-            );
+            services.AddSingleton<ILoggerManager, LoggerManager>();
         }
     }
 }
