@@ -30,3 +30,6 @@ Also using Repository and Unit of Work Patterns.
 
 - Endpoint: /healthz
 
+### Migrations
+
+Migrations folder located on project MatchOdds.Infranstructure
