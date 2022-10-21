@@ -1,4 +1,5 @@
 using MatchOdds.Api.Controllers;
+using MatchOdds.Domain;
 using MatchOdds.Domain.Interfaces;
 using MatchOdds.Domain.Models.Match;
 using Microsoft.AspNetCore.Cors;
@@ -11,22 +12,25 @@ namespace MatchOdds.Controllers
     [Route("api/[controller]")]
     public class MatchController : BaseController
     {
-        private readonly IMatchRepositoryService _matchRepositoryClient;
-        private readonly IOddRepositoryService _oddRepositoryService;
+        //private readonly IMatchRepositoryService _matchRepositoryClient;
+        //private readonly IOddRepositoryService _oddRepositoryService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public MatchController(IMatchRepositoryService matchRepositoryClient, IOddRepositoryService oddRepositoryService)
+
+        public MatchController(IUnitOfWork unitOfWork)
         {
-            _matchRepositoryClient = matchRepositoryClient;
-            _oddRepositoryService = oddRepositoryService;
+            _unitOfWork = unitOfWork;
+            //_matchRepositoryClient = matchRepositoryClient;
+            //_oddRepositoryService = oddRepositoryService;
         }
 
         // GET: api/match
         [HttpGet]
-        public async Task<ActionResult<IList<MatchModel>>> Get()
+        public async Task<ActionResult> Get()
         {
             try
             {
-                var matches = await _matchRepositoryClient.GetAllMatches();
+                var matches = await _unitOfWork.MatchRepositoryService.GetAllMatches();
                 return Ok(matches);
             }
             catch (Exception ex)
@@ -38,11 +42,11 @@ namespace MatchOdds.Controllers
 
         // GET api/match/1
         [HttpGet("{id}")]
-        public async Task<ActionResult<MatchModel>> Get(int id)
+        public async Task<ActionResult> Get(int id)
         {
             try
             {
-                var match = await _matchRepositoryClient.GetMatchById(id);
+                var match = await _unitOfWork.MatchRepositoryService.GetMatchById(id);
                 return Ok(match);
             }
             catch (Exception ex)
@@ -57,7 +61,7 @@ namespace MatchOdds.Controllers
         {
             try
             {
-                var match = await _matchRepositoryClient.GetMatchByTeamAName(title);
+                var match = await _unitOfWork.MatchRepositoryService.GetMatchByTeamAName(title);
                 return Ok(match);
             }
             catch (Exception ex)
@@ -68,7 +72,7 @@ namespace MatchOdds.Controllers
 
         // POST api/match
         [HttpPost]
-        public async Task<ActionResult<MatchModel>> Post([FromBody] MatchAddModel model)
+        public async Task<ActionResult> Post([FromBody] MatchAddModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -77,7 +81,7 @@ namespace MatchOdds.Controllers
 
             try
             {
-                var match = await _matchRepositoryClient.AddMatch(model);
+                var match = await _unitOfWork.MatchRepositoryService.AddMatch(model);
                 return Ok(match);
             }
             catch (Exception ex)
@@ -88,7 +92,7 @@ namespace MatchOdds.Controllers
 
         // PUT api/match/1
         [HttpPut("{id}")]
-        public async Task<ActionResult<MatchModel>> Put(int id, [FromBody] MatchUpdateModel model)
+        public async Task<ActionResult> Put(int id, [FromBody] MatchUpdateModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -97,7 +101,7 @@ namespace MatchOdds.Controllers
 
             try
             {
-                var match = await _matchRepositoryClient.GetMatchById(id);
+                var match = await _unitOfWork.MatchRepositoryService.GetMatchById(id);
                 if (match == null)
                 {
                     return NotFound();
@@ -108,7 +112,7 @@ namespace MatchOdds.Controllers
                     model.ID = id;
                 }
 
-                var updatedMatch = await _matchRepositoryClient.UpdateMatch(model);
+                var updatedMatch = await _unitOfWork.MatchRepositoryService.UpdateMatch(model);
                 return Ok(updatedMatch);
             }
             catch (Exception ex)
@@ -123,13 +127,13 @@ namespace MatchOdds.Controllers
         {
             try
             {
-                var match = await _matchRepositoryClient.GetMatchById(id);
+                var match = await _unitOfWork.MatchRepositoryService.GetMatchById(id);
                 if (match == null)
                 {
                     return NotFound();
                 }
 
-                var deleted = await _matchRepositoryClient.DeleteMatch(id);
+                var deleted = await _unitOfWork.MatchRepositoryService.DeleteMatch(id);
                 if (deleted)
                 {
                     return Ok();
