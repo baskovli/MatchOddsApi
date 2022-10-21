@@ -1,6 +1,5 @@
 ﻿using MatchOdds.Domain;
 using MatchOdds.Domain.Models.Match;
-using MatchOdds.Domain.Models.Odd;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,20 +8,18 @@ namespace MatchOdds.Api.Controllers
     [ApiController]
     [EnableCors("_myAllowSpecificOrigins")]
     [Route("api/[controller]")]
-    public class OddController : Controller
+    public class OddController : BaseController
     {
         //repository pattern
-        private readonly IUnitOfWork _unitOfWork;
 
-        public OddController(IUnitOfWork unitOfWork)
+        public OddController(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-            _unitOfWork = unitOfWork;
         }
 
 
         // GET: api/odds
         [HttpGet]
-        public async Task<ActionResult<IList<OddModel>>> Get()
+        public async Task<ActionResult> Get()
         {
             try
             {
@@ -38,7 +35,7 @@ namespace MatchOdds.Api.Controllers
 
         // GET api/odds/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<OddModel>> Get(int id)
+        public async Task<ActionResult> Get(int id)
         {
             try
             {
@@ -53,7 +50,7 @@ namespace MatchOdds.Api.Controllers
 
         // POST api/odds
         [HttpPost]
-        public async Task<ActionResult<OddModel>> Post([FromBody] OddAddModel model)
+        public async Task<ActionResult> Post([FromBody] OddAddModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -73,7 +70,7 @@ namespace MatchOdds.Api.Controllers
 
         // PUT api/odds/1
         [HttpPut("{id}")]
-        public async Task<ActionResult<OddModel>> Put(int id, [FromBody] OddUpdateModel model)
+        public async Task<ActionResult> Put(int id, [FromBody] OddUpdateModel model)
         {
             if (!ModelState.IsValid)
             {

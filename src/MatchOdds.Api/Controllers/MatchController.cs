@@ -13,13 +13,10 @@ namespace MatchOdds.Controllers
     public class MatchController : BaseController
     {
         //private readonly IMatchRepositoryService _matchRepositoryClient;
-        //private readonly IOddRepositoryService _oddRepositoryService;
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IOddRepositoryService _oddRepositoryService;      
 
-
-        public MatchController(IUnitOfWork unitOfWork)
+        public MatchController(IUnitOfWork unitOfWork): base(unitOfWork)
         {
-            _unitOfWork = unitOfWork;
             //_matchRepositoryClient = matchRepositoryClient;
             //_oddRepositoryService = oddRepositoryService;
         }
