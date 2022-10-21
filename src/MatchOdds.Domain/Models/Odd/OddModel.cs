@@ -8,6 +8,6 @@ namespace MatchOdds.Domain.Models.Odd
         public int MatchId { get; set; }
         public string Match { get; set; }
         public string Specifier { get; set; }
-        public double Odd { get; set; }
+        public double MatchOdd { get; set; }
     }
 }

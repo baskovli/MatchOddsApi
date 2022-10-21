@@ -15,7 +15,7 @@ namespace MatchOdds.Api.Configuration
         {
             // Configure DBContext
             services.AddDbContext<MatchOddsContext>(options => options.EnableSensitiveDataLogging()
-            .UseSqlServer(configuration.GetConnectionString("matchOddsDBConString"),
+            .UseSqlServer(configuration.GetConnectionString("MatchOddsDBConString"),
             b => b.MigrationsAssembly("MatchOdds.Infrastructure")));
         }
 

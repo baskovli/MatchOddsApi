@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace MatchOdds.Domain.Entities
 {
 #pragma warning disable
-    public class Match : AuditEntity<int>
+    public class Match : BaseEntity<int>
     {
         public Match()
         {
@@ -17,10 +17,10 @@ namespace MatchOdds.Domain.Entities
         public string MatchDate { get; set; }
         [Required]
         public string MatchTime { get; set; }
-        [MaxLength(10)]
+        [MaxLength(20)]
         [Required]
         public string TeamA { get; set; }
-        [MaxLength(10)]
+        [MaxLength(20)]
         [Required]
         public string TeamB { get; set; }
         [Required]

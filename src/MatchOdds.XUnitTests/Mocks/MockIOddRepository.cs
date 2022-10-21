@@ -16,13 +16,13 @@ namespace MatchOdds.XUnitTests.Mocks
                 {
                     MatchId = 1,
                     Specifier = "1",
-                    Odd = 1.4
+                    MatchOdd = 1.4
                 },
                 new OddModel
                 {
                     MatchId = 1,
                     Specifier = "x",
-                    Odd = 2.3
+                    MatchOdd = 2.3
                 }
             };
 

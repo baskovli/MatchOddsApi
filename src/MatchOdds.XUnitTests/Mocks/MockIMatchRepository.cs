@@ -26,7 +26,7 @@ internal class MockIMatchRepository
                     new OddModel
                     {
                         Specifier = "1",
-                        Odd = 1.4
+                        MatchOdd = 1.4
                     }
                 }
             },

@@ -1,6 +1,5 @@
 ﻿using MatchOdds.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
 
 namespace MatchOdds.Infrastructure
 {
@@ -14,8 +13,8 @@ namespace MatchOdds.Infrastructure
         {
         }
 
-        public DbSet<Match> Match { get; set; }
-        public DbSet<Odd> Odd { get; set; }
+        public DbSet<Match> Matches { get; set; }
+        public DbSet<Odd> Odds { get; set; }
 
         //https://blog.devgenius.io/3-different-ways-to-implement-value-object-in-csharp-10-d8f43e1fa4dc
         //protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
@@ -27,22 +26,26 @@ namespace MatchOdds.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Match>(e =>
-            {               
-                e.ToTable("Match").HasKey(x => x.ID);
+            {
+                e.ToTable("Matches").HasKey(x => x.ID);
                 e.HasIndex(p => new { p.MatchDate, p.TeamA }).IsUnique();
                 e.HasIndex(p => new { p.MatchDate, p.TeamB }).IsUnique();
                 e.HasIndex(p => new { p.MatchDate, p.TeamA, p.TeamB }).IsUnique();
-                e.Property(x => x.Description).HasMaxLength(255).HasDefaultValue(string.Empty);
-                e.Property(x => x.TeamA).HasMaxLength(255).HasDefaultValue(string.Empty);
-                e.Property(x => x.TeamB).HasMaxLength(255).HasDefaultValue(string.Empty);
-                e.Property(x => x.Sport);
+                e.Property(x => x.Description).HasMaxLength(255).HasDefaultValue(string.Empty).IsRequired();
+                e.Property(x => x.MatchDate).HasMaxLength(128).HasDefaultValue(string.Empty).IsRequired();
+                e.Property(x => x.MatchTime).HasMaxLength(10).HasDefaultValue(string.Empty).IsRequired();
+                e.Property(x => x.TeamA).HasMaxLength(20).HasDefaultValue(string.Empty).IsRequired();
+                e.Property(x => x.TeamB).HasMaxLength(20).HasDefaultValue(string.Empty).IsRequired();
+                e.Property(x => x.Sport).IsRequired();
+                e.HasMany(x => x.Odds).WithOne(z => z.Match).OnDelete(DeleteBehavior.ClientCascade);
+
             });
 
             modelBuilder.Entity<Odd>(e =>
             {
-                e.ToTable("Odd").HasKey(x => x.ID);
+                e.ToTable("Odds").HasKey(x => x.ID);
                 e.Property(x => x.Specifier).HasMaxLength(255).HasDefaultValue(string.Empty);
-                e.Property(x => x.MatchOdd);
+                e.Property(x => x.MatchOdd).HasColumnName("Odd");
             });
         }
     }

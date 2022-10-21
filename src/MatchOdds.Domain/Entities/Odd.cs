@@ -12,7 +12,7 @@ namespace MatchOdds.Domain.Entities
         public Match Match { get; set; } = null!;
         [MaxLength(3)]
         public string Specifier { get; set; } = null!;
-        [Required, Column("Odd")]
+        [Required]
         public double MatchOdd { get; set; }
     }
 }

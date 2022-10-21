@@ -9,6 +9,6 @@ namespace MatchOdds.Domain.Models.Match
         [MaxLength(3)]
         public string Specifier { get; set; } = null!;
         [Required]
-        public double Odd { get; set; }
+        public double MatchOdd { get; set; }
     }
 }
