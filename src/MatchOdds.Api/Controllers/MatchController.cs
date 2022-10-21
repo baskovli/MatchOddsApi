@@ -23,7 +23,7 @@ namespace MatchOdds.Controllers
 
         // GET: api/match
         [HttpGet]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult<IList<MatchModel>>> Get()
         {
             try
             {
@@ -39,7 +39,7 @@ namespace MatchOdds.Controllers
 
         // GET api/match/1
         [HttpGet("{id}")]
-        public async Task<ActionResult> Get(int id)
+        public async Task<ActionResult<MatchModel>> Get(int id)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace MatchOdds.Controllers
 
         // POST api/match
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] MatchAddModel model)
+        public async Task<ActionResult<MatchModel>> Post([FromBody] MatchAddModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -89,7 +89,7 @@ namespace MatchOdds.Controllers
 
         // PUT api/match/1
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, [FromBody] MatchUpdateModel model)
+        public async Task<ActionResult<MatchModel>> Put(int id, [FromBody] MatchUpdateModel model)
         {
             if (!ModelState.IsValid)
             {

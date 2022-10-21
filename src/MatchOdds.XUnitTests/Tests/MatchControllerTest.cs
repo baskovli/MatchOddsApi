@@ -17,13 +17,30 @@ namespace MatchOdds.XUnitTests.Tests
         {
             var repositoryWrapperMock = MockIRepositoryWrapper.GetMock();
             var matchController = new MatchController(repositoryWrapperMock.Object);
-            var result = await matchController.Get() as ObjectResult;
+            object obj = await matchController.Get();
+            var result = obj as ObjectResult;
 
             Assert.NotNull(result);
             Assert.Equal(StatusCodes.Status200OK, result.StatusCode);
             Assert.IsAssignableFrom<IEnumerable<MatchModel>>(result.Value);
             Assert.NotEmpty(result.Value as IEnumerable<MatchModel>);
-        }        
+        }
+
+        [Fact]
+        public async void GivenAnIdOfAnExistingMatch_WhenGettingMatchyId_ThenMatchReturns()
+        {
+            var repositoryWrapperMock = MockIRepositoryWrapper.GetMock();
+
+            var ownerController = new MatchController(repositoryWrapperMock.Object);
+
+            object obj = await ownerController.Get(1);
+            var result = obj as ObjectResult;
+
+            Assert.NotNull(result);
+            Assert.Equal(StatusCodes.Status200OK, result.StatusCode);
+            Assert.IsAssignableFrom<MatchModel>(result.Value);
+            Assert.NotNull(result.Value as MatchModel);
+        }
 
         [Fact]
         public async void GivenValidRequest_WhenCreatingMatch_ThenCreatedReturns()
@@ -40,7 +57,9 @@ namespace MatchOdds.XUnitTests.Tests
                 TeamB = "Aris",
                 Sport = SportType.Football,
             };
-            var result = await ownerController.Post(owner) as ObjectResult;
+            object obj = await ownerController.Post(owner);
+
+            var result = obj as ObjectResult;
 
             Assert.NotNull(result);
             Assert.IsAssignableFrom<CreatedAtRouteResult>(result);
@@ -48,19 +67,5 @@ namespace MatchOdds.XUnitTests.Tests
             Assert.Equal("OwnerById", (result as CreatedAtRouteResult)!.RouteName);
         }
 
-        [Fact]
-        public async void GivenAnIdOfAnExistingMatch_WhenGettingMatchyId_ThenMatchReturns()
-        {
-            var repositoryWrapperMock = MockIRepositoryWrapper.GetMock();
-
-            var ownerController = new MatchController(repositoryWrapperMock.Object);
-
-            var result = await ownerController.Get(1) as ObjectResult;
-
-            Assert.NotNull(result);
-            Assert.Equal(StatusCodes.Status200OK, result.StatusCode);
-            Assert.IsAssignableFrom<MatchModel>(result.Value);
-            Assert.NotNull(result.Value as MatchModel);
-        }
     }
 }
